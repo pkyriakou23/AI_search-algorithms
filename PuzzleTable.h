@@ -9,37 +9,62 @@ using namespace std;
 class PuzzleTable
 {
     public:
-        PuzzleTable(string pos,int x,int y);
+        PuzzleTable(int *boardT,int sizeT);
         PuzzleTable();
+
         bool goUp(PuzzleTable &p);
         bool goDown(PuzzleTable &p);
         bool goRight(PuzzleTable &p);
         bool goLeft(PuzzleTable &p);
-        void setXY(int x);
-        void setPrev(PuzzleTable *p);
+
+        void setPrev(PuzzleTable *p){prev=p;}
+        void setsteps(int s){steps=steps*10+s;}
+        void setEmptyPos(int s){emptyPos=s;}
+        void setHvalue(double n){hvalue=n;}
+
+
         PuzzleTable *getPrev(){ return prev;}
-        string getposValue();
-        string getsteps();
-        void setposValue(string s);
-        void setsolutionSteps(string s){solutionSteps=s;}
-        string getsolutionSteps();
-        bool isFinal();
-        int getDepth(){ return depth;}
+        double getHvalue(){return hvalue;}
+        int getsteps();
         int getEmptyPos();
+        int getDepth();
+        int getposValue()
+        {
+            int t=board[0];
+            for(int i=1;i<9;i++)
+                t=t*10+board[i];
+            return t;
+        }
+        int heuristic(bool);
+
+
+
+        bool isFinal();
+
         vector <PuzzleTable *> expand();
-        void setsteps(string s){steps=s;}
+
         PuzzleTable operator= (PuzzleTable o);
+        bool operator==(const PuzzleTable& s) ;
+
 
     private:
-        int WIDTH;
-        int HEIGHT;
-        int depth;
-        string posValue;                 //n*m character value shows the status of puzzle
-        string solutionSteps;              // moves
-        string steps;
+        int size;
         PuzzleTable *prev;
+        int *board;
+        int emptyPos;
+        double hvalue;
+        int steps;  //1=up 2=right 3=down 4= left
 
 
+
+};
+class myComparator
+{
+public:
+    int operator() (PuzzleTable *p1 , PuzzleTable *p2) const
+    {
+        return p1->getHvalue()>p2->getHvalue();
+    }
 };
 
 #endif // PUZZLETABLE_H

@@ -22,3 +22,51 @@
 	<sstream>
 	<vector>
 
+1617227164 source:d:\panos\desktop\auth\auth\4o eksamino\ai\n-puzzle problem\main.cpp
+	<iostream>
+	<stack>
+	<vector>
+	<unordered_set>
+	<unordered_map>
+	<queue>
+	<stack>
+	<algorithm>
+	"PuzzleTable.h"
+
+1617214518 d:\panos\desktop\auth\auth\4o eksamino\ai\n-puzzle problem\puzzletable.h
+	<string>
+	<sstream>
+	<vector>
+
+1617227019 source:d:\panos\desktop\auth\auth\4o eksamino\ai\n-puzzle problem\puzzletable.cpp
+	"PuzzleTable.h"
+	<string>
+	<sstream>
+	<vector>
+	<iostream>
+	<math.h>
+
+1617648000 source:d:\panos\desktop\auth\auth\4o eksamino\ai\n-puzzle problem - copy\main.cpp
+	<iostream>
+	<stack>
+	<vector>
+	<unordered_set>
+	<unordered_map>
+	<queue>
+	<stack>
+	<algorithm>
+	"PuzzleTable.h"
+
+1617647969 d:\panos\desktop\auth\auth\4o eksamino\ai\n-puzzle problem - copy\puzzletable.h
+	<string>
+	<sstream>
+	<vector>
+
+1617648693 source:d:\panos\desktop\auth\auth\4o eksamino\ai\n-puzzle problem - copy\puzzletable.cpp
+	"PuzzleTable.h"
+	<string>
+	<sstream>
+	<vector>
+	<iostream>
+	<math.h>
+

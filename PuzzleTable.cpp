@@ -4,169 +4,171 @@
 #include <sstream>
 #include <vector>
 #include<iostream>
+#include<math.h>
 using namespace std;
 
-
-PuzzleTable::PuzzleTable(string pos,int x,int y)
+void print(string s,int a)
 {
-    posValue=pos;
-    WIDTH=x;
-    HEIGHT=y;
-    steps="";
-    setPrev(nullptr);
-    depth=0;
+   /* if(a==0)
+        cout<<s<<endl;
+    else if(s=="")
+    cout<<" "<<a<<endl;
+    else*/
+     //   cout<<endl<<s<<" "<<a<<endl;
 }
-PuzzleTable::PuzzleTable()
+
+PuzzleTable::PuzzleTable(int *boardT,int sizeT)
 {
-    posValue="";
-    WIDTH=0;
-    HEIGHT=0;
-    steps="";
+    board=boardT;
+    size=sizeT;
+    steps=0;
     setPrev(nullptr);
-    depth=0;
+
+    emptyPos=getEmptyPos();
+
 }
 
 PuzzleTable PuzzleTable::operator= (PuzzleTable o)
 {
-        WIDTH=o.WIDTH;
-        HEIGHT=o.HEIGHT;
-        depth=o.depth;
-        posValue=o.posValue;           //n*m character value shows the status of puzzle
-        solutionSteps=o.solutionSteps;
-        steps=o.steps;        // moves
-        prev=o.prev;
+    board=new int[9];
+    for(int i=0;i<9;i++)
+        board[i]=o.board[i];
+
+    size=o.size;
+    steps=o.steps;
+    setPrev(o.prev);
+    emptyPos=o.emptyPos;
+
         return *this;
 
 }
 
 bool PuzzleTable::goUp(PuzzleTable &p)
 {
-        for(int i=0;i<WIDTH;i++)
-            if(posValue[i]=='0')
-                return false;
-    p=*this;
-    string temp=p.getposValue();
-    int i=p.getEmptyPos();
-    temp[i]=temp[i-1];
-    temp[i-1]='0';
-    p.setposValue(temp);
-    p.setsteps("up");
-    setPrev(this);
 
+    print("up",getposValue());
+
+    for(int i=0;i<3;i++)
+        if(board[i]==0)
+            return false;
+    p=*this;
+
+    int ep=p.getEmptyPos();
+    p.board[ep]=p.board[ep-3];
+    p.board[ep-3]=0;
+    p.setEmptyPos(p.getEmptyPos());
+    p.setsteps(1);
+    p.setPrev(this);
     return true;
-        return true;
 }
 
 bool PuzzleTable::goDown(PuzzleTable &p)
 {
-    for(int i=HEIGHT*WIDTH-HEIGHT;i<WIDTH*HEIGHT;i++)
-        if(posValue[i]=='0')
+    print("down",getposValue());
+
+      for(int i=6;i<9;i++)
+        if(board[i]==0)
             return false;
     p=*this;
-    string temp=p.getposValue();
-    int i=p.getEmptyPos();
-    temp[i]=temp[i+WIDTH];
-    temp[i+WIDTH]='0';
-    p.setposValue(temp);
-    p.setsteps("down");
-    setPrev(this);
-
-    return true;
+    int ep=p.getEmptyPos();
+    p.board[ep]=p.board[ep+3];
+    p.board[ep+3]=0;
+    p.setEmptyPos(p.getEmptyPos());
+    p.setsteps(3);
+    p.setPrev(this);
     return true;
 }
 
 bool PuzzleTable::goRight(PuzzleTable &p)
 {
-    for(int i=WIDTH-1;i<HEIGHT*WIDTH;i+=WIDTH)
-        if(posValue[i]=='0')
+
+    print("right",getposValue());
+
+    for(int i=2;i<9;i+=3)
+        if(board[i]==0)
             return false;
     p=*this;
-    string temp=p.getposValue();
-    int i=p.getEmptyPos();
-    temp[i]=temp[i+1];
-    temp[i+1]='0';
-    p.setposValue(temp);
-    p.setsteps("right");
-    setPrev(this);
 
+    int ep=p.getEmptyPos();
+    p.board[ep]=p.board[ep+1];
+    p.board[ep+1]=0;
+    p.setEmptyPos(p.getEmptyPos());
+
+    p.setsteps(2);
+    p.setPrev(this);
     return true;
-        return true;
 }
 
 bool PuzzleTable::goLeft(PuzzleTable &p)
 {
-    for(int i=0;i<=HEIGHT*WIDTH-WIDTH;i+=WIDTH)
-        if(posValue[i]=='0')
-              return false;
-    p=*this;
-    string temp=p.getposValue();
-    int i=p.getEmptyPos();
-    temp[i]=temp[i-1];
-    temp[i-1]='0';
-    p.setposValue(temp);
-    p.setsteps("left");
-    setPrev(this);
 
+    print("left",getposValue());
+
+      for(int i=0;i<7;i+=3)
+        if(board[i]==0)
+            return false;
+    p=*this;
+    int ep=p.getEmptyPos();
+    p.board[ep]=p.board[ep-1];
+    p.board[ep-1]=0;
+    p.setEmptyPos(p.getEmptyPos());
+
+
+    p.setsteps(4);
+    p.setPrev(this);
     return true;
 }
 int PuzzleTable::getEmptyPos()
 {
-    for(int i=0;i<WIDTH*HEIGHT;i++)
-        if(posValue[i]=='0')
-            return i;
-    return -1;
+   for(int i=0;i<9;i++)
+    if(board[i]==0)
+        return i;
 }
 
-string PuzzleTable::getposValue()
-{
-    return posValue;
-
-}
-void PuzzleTable::setposValue(string s)
-{
-    posValue=s;
-}
-
-string PuzzleTable::getsteps()
-{
-    return steps;
-}
-
-string PuzzleTable::getsolutionSteps()
-{
-    int count=0;
-    PuzzleTable *p=this;
-    while(p!=nullptr)
-    {
-        cout<<solutionSteps<<endl;
-    count++;
-   solutionSteps = p->getsteps()+" "+solutionSteps;
-        p = p->getPrev();
-
-    }
-    depth=count;
-   return solutionSteps;
-}
 
 bool PuzzleTable::isFinal()
 {
-    string temp="";
-    for(int i=1;i<WIDTH*HEIGHT;i++)
-        temp+=to_string(i);
-    temp+='0';
-    if(posValue==temp)
-        return true;
-    return false;
+    for(int i=0;i<8;i++)
+        if(board[i]!=i+1)
+            return false;
+    return true;
 }
 
-void PuzzleTable::setPrev(PuzzleTable *p)
+bool PuzzleTable::operator==(const PuzzleTable& s)
 {
-    prev=p;
+    return (board==s.board);
+}
+
+int PuzzleTable::heuristic(bool a)
+{
+
+        int count=0;
+        for(int i=0;i<8;i++)
+            if(board[i]!=i+1)
+                count++;
+        count+=board[8]==0?0:1;
+        if(!a)
+        {return count;}
+        return count+=getDepth();
 
 }
+
+int PuzzleTable::getDepth()
+{
+    int counter =0;
+    PuzzleTable *p = this;
+    while (p->prev!=nullptr)
+    {
+        p=p->prev;
+        counter++;
+    }
+    return counter;
+
+}
+
 vector <PuzzleTable *>  PuzzleTable::expand()
-
 {
+
     vector <PuzzleTable *> children;
     PuzzleTable *child;
     child = new PuzzleTable(*this);
@@ -189,7 +191,7 @@ vector <PuzzleTable *>  PuzzleTable::expand()
         children.push_back(child);
     else
         delete child;
-    child = new PuzzleTable(*this);
+
     return children;
 
 }
