@@ -121,8 +121,8 @@ int main()
 {
     long long mem,examined;
 
-   int board[9]={3,6,0,1,4,2,7,5,8};
-
+  int board[9]={3,6,0,1,4,2,7,5,8};
+   // int board[9]={2,1,6,0,4,3,7,5,8};
   /*
     int board[9];
     for(int i=0;i<9;i++)
