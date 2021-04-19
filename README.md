@@ -1,2 +1,2 @@
 # AI_search-algorithms
-Project for Artificial Intelligence, 3th semester at Computer Science AUTH.
+Project for Artificial Intelligence, 4th semester at Computer Science AUTH.
